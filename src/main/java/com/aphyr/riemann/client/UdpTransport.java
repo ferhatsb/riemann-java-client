@@ -174,7 +174,6 @@ public class UdpTransport implements SynchronousTransport {
         return null;
     }
 
-
     public static class DiscardHandler extends SimpleChannelHandler {
         @Override
         public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
@@ -192,7 +191,6 @@ public class UdpTransport implements SynchronousTransport {
     public class UdpReconnectHandler extends SimpleChannelUpstreamHandler {
         final ConnectionlessBootstrap bootstrap;
         private final Timer timer;
-        private long startTime = -1;
 
         public UdpReconnectHandler(ConnectionlessBootstrap bootstrap, Timer timer) {
             this.bootstrap = bootstrap;
@@ -227,13 +225,6 @@ public class UdpTransport implements SynchronousTransport {
                     state = State.CONNECTED;
                 }
             }, RECONNECT_DELAY, TimeUnit.SECONDS);
-        }
-
-        @Override
-        public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
-            if (startTime < 0) {
-                startTime = System.currentTimeMillis();
-            }
         }
 
         @Override
