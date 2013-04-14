@@ -22,9 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class UdpTransport implements SynchronousTransport {
-    // For writes we don't care about
-    public static final Promise<Msg> blackhole =
-            new Promise<Msg>();
 
     // Shared pipeline handlers
     public static final ProtobufEncoder pbEncoder = new ProtobufEncoder();
@@ -143,6 +140,7 @@ public class UdpTransport implements SynchronousTransport {
         }
 
         try {
+            state = State.DISCONNECTING;
             channel.close().awaitUninterruptibly();
             bootstrap.releaseExternalResources();
         } finally {
@@ -225,13 +223,6 @@ public class UdpTransport implements SynchronousTransport {
                     state = State.CONNECTED;
                 }
             }, RECONNECT_DELAY, TimeUnit.SECONDS);
-        }
-
-        @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-            Throwable cause = e.getCause();
-            cause.printStackTrace();
-            ctx.getChannel().close();
         }
     }
 }

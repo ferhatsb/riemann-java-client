@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.aphyr</groupId>
-	<artifactId>riemann-java-client</artifactId>
-  <version>0.2.0</version>
-	<packaging>jar</packaging>
-	<name>Riemann Java Client</name>
-	<description>Java client for http://aphyr.github.com/riemann/</description>
-	<url>/</url>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.aphyr</groupId>
+    <artifactId>riemann-java-client</artifactId>
+    <version>0.2.0</version>
+    <packaging>jar</packaging>
+    <name>Riemann Java Client</name>
+    <description>Java client for http://aphyr.github.com/riemann/</description>
+    <url>/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-	<dependencies>
-                <dependency>
-                        <groupId>org.codehaus.jsr166-mirror</groupId>
-                        <artifactId>jsr166y</artifactId>
-                        <version>1.7.0</version>
-                        <scope>provided</scope>
-                </dependency>
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>2.4.1</version>
-			<scope>compile</scope>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.jsr166-mirror</groupId>
+            <artifactId>jsr166y</artifactId>
+            <version>1.7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.4.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty</artifactId>
-      <version>3.6.1.Final</version>
-    </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.6.1.Final</version>
+        </dependency>
 
-		<!-- TEST DEP's -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit-dep</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- TEST DEP's -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.yammer.metrics</groupId>
             <artifactId>metrics-core</artifactId>
@@ -106,10 +106,10 @@
     </build>
 
     <distributionManagement>
-      <repository>
-        <id>clojars.org</id>
-        <name>Clojars</name>
-        <url>https://clojars.org/repo</url>
-      </repository>
+        <repository>
+            <id>clojars.org</id>
+            <name>Clojars</name>
+            <url>https://clojars.org/repo</url>
+        </repository>
     </distributionManagement>
 </project>
