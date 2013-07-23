@@ -5,15 +5,15 @@ import org.jboss.netty.bootstrap.ConnectionlessBootstrap;
 import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioDatagramChannelFactory;
 import org.jboss.netty.handler.codec.protobuf.ProtobufEncoder;
-import org.jboss.netty.handler.timeout.WriteTimeoutException;
 import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timeout;
 import org.jboss.netty.util.Timer;
 import org.jboss.netty.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
@@ -22,6 +22,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class UdpTransport implements SynchronousTransport {
+
+    final static Logger log = LoggerFactory.getLogger(UdpTransport.class);
 
     // Shared pipeline handlers
     public static final ProtobufEncoder pbEncoder = new ProtobufEncoder();
@@ -82,7 +84,7 @@ public class UdpTransport implements SynchronousTransport {
         if (state != State.DISCONNECTED) {
             return;
         }
-        ;
+
         state = State.CONNECTING;
 
         // Set up channel factory
@@ -118,7 +120,7 @@ public class UdpTransport implements SynchronousTransport {
         // Check for errors.
         if (!result.isSuccess()) {
             disconnect(true);
-            throw new IOException("Connection failed", result.getCause());
+            log.error("Connection failed", result.getCause());
         }
 
         // Set up channel
@@ -179,8 +181,7 @@ public class UdpTransport implements SynchronousTransport {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-            e.getCause().printStackTrace();
-
+            log.warn("DiscardHandler exception", e.getCause());
             Channel ch = e.getChannel();
             ch.close();
         }
@@ -223,6 +224,11 @@ public class UdpTransport implements SynchronousTransport {
                     state = State.CONNECTED;
                 }
             }, RECONNECT_DELAY, TimeUnit.SECONDS);
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
+            log.warn("Reconnection error", e.getCause());
         }
     }
 }
